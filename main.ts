@@ -26,7 +26,7 @@ function reset_info () {
 sprites.onOverlap(SpriteKind.d22, SpriteKind.Player, function (sprite, otherSprite) {
     if (otherSprite == player1) {
         sbar2.value += custoDamage * 5
-        sprite.setKind(SpriteKind.Player)
+        sprite.setKind(SpriteKind.d_semDano)
         controller.player1.moveSprite(player1, 0, 0)
         LigarInfo = 2
         animation.runImageAnimation(
@@ -35,7 +35,7 @@ sprites.onOverlap(SpriteKind.d22, SpriteKind.Player, function (sprite, otherSpri
         150,
         true
         )
-        timer.after(2000, function () {
+        timer.after(4000, function () {
             LigarInfo = 0
             controller.player1.moveSprite(player1, 150, 150)
         })
@@ -909,6 +909,9 @@ function info_B_button () {
         LigarInfo2 = 0
     }
 }
+controller.player2.onButtonEvent(ControllerButton.A, ControllerButtonEvent.Released, function () {
+    liberarBotao2 = 0
+})
 function resetEnemy () {
     danoPlayer1 = 0
     danoPlayer2 = 0
@@ -943,33 +946,33 @@ function iniciar_jogo () {
         ................................................
         ................................................
         ................................................
-        ........77......777...777...777.77777...........
-        ........77.....7767...777...767.7666777.........
-        ........77.....76667..767...767.76666677........
-        ........77....7766677.767...767.766666667.......
-        ........777...7677767.7677..767.766666667.......
-        ........767...767.767.7667..767.7666666677......
-        ........767...767.767.7667..767.7667776667......
-        ........767...7676767.76767.767.7667.76667......
-        ........767...7777767.76767.767.7667776667......
-        ........767.......767.767667767.7666666667......
-        ........767777777.767.767767767.7666666677......
-        ........766666667.767.767766767.766666677.......
-        ........766666667.767.767.76667.76666677........
-        .......7777777777.777.777.77777.7777777.........
+        .......177.....1777..1777..1777177777...........
+        .......177....17767..1777..176717666777.........
+        .......177....176667.1767..1767176666677........
+        .......177...177666771767..17671766666667.......
+        .......1777..1767776717677.17671766666667.......
+        .......1767..1767176717667.176717666666677......
+        .......1767..1767176717667.176717667776667......
+        .......1767..17676767176767176717667176667......
+        .......1767..17677767176767176717667776667......
+        .......1767..17671767176766776717666666667......
+        .......17677777771767176776776717666666677......
+        .......1766666667176717677667671766666677.......
+        .......176666666717671767176667176666677........
+        ......177777777771777177717777717777777.........
         ................................................
-        ............999999999.9999..99..999.999.........
-        ............9bbbbbbb9.9bb9.9b99.9b9.9b9.........
-        ............9bbbbbbb9.9bb99bbb9.9b9.9b9.........
-        ............9bbb99999.9bb9bbb99.9b9.9b9.........
-        ............9bbb9.....9bbbbb99..9bb9bb9.........
-        ............9bbb99999.9bbbb99....9bbb9..........
-        ............9bbbbbbb9.9bbbb99.....9b9...........
-        ............99999bbb9.9bbbbb99....9b9...........
-        ................99bb9.9bb9bbb99...9b9...........
-        .....9999999999999bb9.9bb99bbb9...9b9...........
-        .....9bbbbbbbbbbbbbb9.9bb9.9b99...9b9...........
-        .....9999999999999999.9999..99....999...........
+        ...........199999999919999.199.19991999.........
+        ...........19bbbbbbb919bb919b9919b919b9.........
+        ...........19bbbbbbb919bb99bbb919b919b9.........
+        ...........19bbb9999919bb9bbb9919b919b9.........
+        ...........19bbb9....19bbbbb99.19bb9bb9.........
+        ...........19bbb9999919bbbb99...19bbb9..........
+        ...........19bbbbbbb919bbbb99....19b9...........
+        ...........199999bbb919bbbbb99...19b9...........
+        ...............199bb919bb9bbb99..19b9...........
+        ....19999999999999bb919bb99bbb9..19b9...........
+        ....19bbbbbbbbbbbbbb919bb919b99..19b9...........
+        ....1999999999999999919999.199...1999...........
         ................................................
         ................................................
         `, SpriteKind.logo__)
@@ -1062,7 +1065,8 @@ sprites.onCreated(SpriteKind.d2, function (sprite) {
 })
 sprites.onOverlap(SpriteKind.d11, SpriteKind.Player, function (sprite, otherSprite) {
     if (otherSprite == player2) {
-        sprite.setKind(SpriteKind.Player)
+        sbar1.value += custoDamage * 5
+        sprite.setKind(SpriteKind.d_semDano)
         controller.player2.moveSprite(player2, 0, 0)
         LigarInfo2 = 2
         animation.runImageAnimation(
@@ -1071,7 +1075,7 @@ sprites.onOverlap(SpriteKind.d11, SpriteKind.Player, function (sprite, otherSpri
         150,
         true
         )
-        timer.after(2000, function () {
+        timer.after(4000, function () {
             LigarInfo2 = 0
             controller.player2.moveSprite(player2, 150, 150)
         })
@@ -1395,6 +1399,7 @@ function setSpawn () {
 }
 sprites.onCreated(SpriteKind.spawn__, function (sprite) {
     timer.after(delay, function () {
+        resetEnemy()
         tiles.placeOnTile(Emeny, sprite.tilemapLocation())
         splitScreen.cameraShake(splitScreen.Camera.Camera1, 2, 1000)
         splitScreen.cameraShake(splitScreen.Camera.Camera2, 2, 1000)
@@ -1404,7 +1409,7 @@ sprites.onCreated(SpriteKind.spawn__, function (sprite) {
 })
 sprites.onDestroyed(SpriteKind.Enemy, function (sprite) {
     for (let index = 0; index < 5; index++) {
-        golpeEnemy()
+        golpeEnemy2()
     }
     if (danoPlayer1 > danoPlayer2) {
         info.player1.setScore(10)
@@ -1419,6 +1424,9 @@ sprites.onDestroyed(SpriteKind.Enemy, function (sprite) {
         story.spriteSayText(player2, "5", 10)
     }
     resetTimer()
+})
+controller.player1.onButtonEvent(ControllerButton.A, ControllerButtonEvent.Released, function () {
+    liberarBotao1 = 0
 })
 function resetTimer () {
     delay = 1500
@@ -1508,9 +1516,6 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.plant_2, function (sprite, other
             sprites.destroy(smack)
         })
         sprites.destroy(otherSprite)
-        sbar1.value += valorAlimentar
-        music.play(music.createSoundEffect(WaveShape.Sine, 1023, 1725, 255, 151, 100, SoundExpressionEffect.None, InterpolationCurve.Logarithmic), music.PlaybackMode.InBackground)
-        sprites.destroy(otherSprite)
         sbar2.value += valorAlimentar
         music.play(music.createSoundEffect(WaveShape.Sine, 1023, 1725, 255, 151, 100, SoundExpressionEffect.None, InterpolationCurve.Logarithmic), music.PlaybackMode.InBackground)
     }
@@ -1577,16 +1582,18 @@ let attack2: Sprite = null
 let delayButton2 = 0
 let attack1: Sprite = null
 let delayButtons1 = 0
-let sbar1: StatusBarSprite = null
 let smack: Sprite = null
 let i = 0
+let liberarBotao1 = 0
 let delay = 0
 let ISpawn: Sprite = null
 let wait1 = false
+let sbar1: StatusBarSprite = null
 let target1: Sprite = null
 let gEnemy: Sprite = null
 let logo: Sprite = null
 let Emeny: Sprite = null
+let liberarBotao2 = 0
 let newPlant: Sprite = null
 let danoPlayer2 = 0
 let player2: Sprite = null
@@ -1603,8 +1610,8 @@ let timerGolpeEnemy = 0
 let valorAlimentar = 0
 let custoDamage = 0
 let danoPlayers = 0
-danoPlayers = 5
-custoDamage = 10
+danoPlayers = 3
+custoDamage = 5
 valorAlimentar = 50
 timerGolpeEnemy = 0
 let delayGolpeEnemy = 5
@@ -1617,7 +1624,8 @@ setInfo()
 resetEnemy()
 resetTimer()
 forever(function () {
-    if (controller.player1.isPressed(ControllerButton.A) && delayButtons1 >= 0.3) {
+    if (liberarBotao1 == 0 && (controller.player1.isPressed(ControllerButton.A) && delayButtons1 >= 0.1)) {
+        liberarBotao1 = 1
         delayButtons1 = 0
         if (sbar1.value >= custoDamage) {
             sbar1.value += 0 - custoDamage
@@ -1681,7 +1689,7 @@ forever(function () {
             splitScreen.cameraShake(splitScreen.Camera.Camera1, 2, 100)
             music.play(music.createSoundEffect(WaveShape.Noise, 759, 3613, 255, 0, 50, SoundExpressionEffect.Warble, InterpolationCurve.Curve), music.PlaybackMode.InBackground)
             if (controller.player1.isPressed(ControllerButton.B)) {
-                sbar1.value += 0 - custoDamage
+                sbar1.value += -50 - custoDamage
                 animation.runImageAnimation(
                 attack1,
                 assets.animation`knifes`,
@@ -1694,8 +1702,9 @@ forever(function () {
             music.play(music.createSoundEffect(WaveShape.Noise, 5000, 5000, 255, 0, 20, SoundExpressionEffect.Tremolo, InterpolationCurve.Linear), music.PlaybackMode.InBackground)
         }
     }
-    if (controller.player2.isPressed(ControllerButton.A) && delayButton2 >= 0.3) {
+    if (liberarBotao2 == 0 && (controller.player2.isPressed(ControllerButton.A) && delayButton2 >= 0.1)) {
         delayButton2 = 0
+        liberarBotao2 = 1
         if (sbar2.value >= custoDamage) {
             sbar2.value += 0 - custoDamage
             attack2 = sprites.create(img`
@@ -1758,7 +1767,7 @@ forever(function () {
             splitScreen.cameraShake(splitScreen.Camera.Camera2, 2, 100)
             music.play(music.createSoundEffect(WaveShape.Noise, 759, 3613, 255, 0, 50, SoundExpressionEffect.Warble, InterpolationCurve.Curve), music.PlaybackMode.InBackground)
             if (controller.player2.isPressed(ControllerButton.B)) {
-                sbar2.value += 0 - custoDamage
+                sbar2.value += -50 - custoDamage
                 animation.runImageAnimation(
                 attack2,
                 assets.animation`knifes`,
@@ -1785,7 +1794,7 @@ game.onUpdateInterval(100, function () {
     } else if (wait1 == true) {
         timerGolpeEnemy += 0.1
         if (timerGolpeEnemy >= delayGolpeEnemy) {
-            golpeEnemy()
+            golpeEnemy2()
         }
     }
     delayButtons1 += 0.1
