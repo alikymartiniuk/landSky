@@ -23,9 +23,18 @@ function reset_info () {
         info2.setFlag(SpriteFlag.Invisible, true)
     }
 }
+info.player1.onScore(50, function () {
+    timer.after(500, function () {
+        if (info.player1.score() > info.player2.score()) {
+            game.setGameOverMessage(true, "Player 1 Wins")
+        } else {
+            game.setGameOverMessage(true, "Empate!")
+        }
+        game.gameOver(true)
+    })
+})
 sprites.onOverlap(SpriteKind.d22, SpriteKind.Player, function (sprite, otherSprite) {
     if (otherSprite == player1) {
-        sbar2.value += custoDamage * 5
         sprite.setKind(SpriteKind.d_semDano)
         controller.player1.moveSprite(player1, 0, 0)
         LigarInfo = 2
@@ -54,7 +63,7 @@ sprites.onOverlap(SpriteKind.d1, SpriteKind.Enemy, function (sprite, otherSprite
     Enemy_life += 0 - danoPlayers
     barenemy.value = Enemy_life
     otherSprite.startEffect(effects.trail, 150)
-    if (Enemy_life == 0) {
+    if (Enemy_life <= 0) {
         sprites.destroy(otherSprite)
     }
 })
@@ -160,93 +169,8 @@ function animation2 () {
     )
     characterAnimations.loopFrames(
     player2,
-    [img`
-        . . . . f f f f f . . . . . . . 
-        . . . f e e e e e f . . . . . . 
-        . . f d d d d e e e f . . . . . 
-        . c d f d d f d e e f f . . . . 
-        . c d f d d f d e e d d f . . . 
-        c d e e d d d d e e b d c . . . 
-        c d d d d c d d e e b d c . f f 
-        c c c c c d d d e e f c . f e f 
-        . f d d d d d e e f f . . f e f 
-        . . f f f f f e e e e f . f e f 
-        . . . . f e e e e e e e f f e f 
-        . . . f e f f e f e e e e f f . 
-        . . . f e f f e f e e e e f . . 
-        . . . f d b f d b f f e f . . . 
-        . . . f d d c d d b b d f . . . 
-        . . . . f f f f f f f f f . . . 
-        `,img`
-        . . . . f f f f f . . . . . . . 
-        . . . f e e e e e f . . . . . . 
-        . . f d d d d e e e f . . . . . 
-        . c d f d d f d e e f . . . . . 
-        . c d f d d f d e e f f . . . . 
-        c d e e d d d d e e d d f . . . 
-        c d d d d c d d e e b d c . . . 
-        c c c c c d d e e e b d c . f f 
-        . f d d d d e e e f f c . f e f 
-        . f f f f f f e e e e f . f e f 
-        . f f f f e e e e e e e f f e f 
-        f d d f d d f e f e e e e f f . 
-        f d b f d b f e f e e e e f . . 
-        f f f f f f f f f f f f e f . . 
-        . . . . . . . . . f c d d f . . 
-        . . . . . . . . . . f f f f . . 
-        `,img`
-        . . . . f f f f f . . . . . . . 
-        . . . f e e e e e f . . . . . . 
-        . . f d d d d e e e f f . . . . 
-        . c d d d d d d e e d d f . . . 
-        . c d f d d f d e e b d c . . . 
-        c d d f d d f d e e b d c . f f 
-        c d e e d d d d e e f c . f e f 
-        c d d d d c d e e e f . . f e f 
-        . f c c c d e e e f f . . f e f 
-        . . f f f f f e e e e f . f e f 
-        . . . . f e e e e e e e f f f . 
-        . . f f e f e e f e e e e f . . 
-        . f e f f e e f f f e e e f . . 
-        f d d b d d c f f f f f f b f . 
-        f d d c d d d f . . f c d d f . 
-        . f f f f f f f . . . f f f . . 
-        `,img`
-        . . . . f f f f f . . . . . . . 
-        . . . f e e e e e f f f . . . . 
-        . . f d d d e e e e d d f . . . 
-        . c d d d d d e e e b d c . . . 
-        . c d d d d d d e e b d c . . . 
-        c d d f d d f d e e f c . f f . 
-        c d d f d d f d e e f . . f e f 
-        c d e e d d d d e e f . . f e f 
-        . f d d d c d e e f f . . f e f 
-        . . f f f d e e e e e f . f e f 
-        . . . . f e e e e e e e f f f . 
-        . . . . f f e e e e e b f f . . 
-        . . . f e f f e e c d d f f . . 
-        . . f d d b d d c f f f . . . . 
-        . . f d d c d d d f f . . . . . 
-        . . . f f f f f f f . . . . . . 
-        `,img`
-        . . . . f f f f f . . . . . . . 
-        . . . f e e e e e f . . . . . . 
-        . . f d d d d e e e f . . . . . 
-        . c d f d d f d e e f f . . . . 
-        . c d f d d f d e e d d f . . . 
-        c d e e d d d d e e b d c . . . 
-        c d d d d c d d e e b d c . . . 
-        c c c c c d d e e e f c . . . . 
-        . f d d d d e e e f f . . . . . 
-        . . f f f f f e e e e f . . . . 
-        . . . . f f e e e e e e f . f f 
-        . . . f e e f e e f e e f . e f 
-        . . f e e f e e f e e e f . e f 
-        . f b d f d b f b b f e f f e f 
-        . f d d f d d f d d b e f f f f 
-        . . f f f f f f f f f f f f f . 
-        `],
-    50,
+    assets.animation`cima`,
+    120,
     characterAnimations.rule(Predicate.MovingUp)
     )
     characterAnimations.loopFrames(
@@ -404,7 +328,7 @@ sprites.onOverlap(SpriteKind.d22, SpriteKind.Enemy, function (sprite, otherSprit
     Enemy_life += 0 - danoPlayers
     barenemy.value = Enemy_life
     otherSprite.startEffect(effects.trail, 150)
-    if (Enemy_life == 0) {
+    if (Enemy_life <= 0) {
         sprites.destroy(otherSprite)
     }
 })
@@ -502,93 +426,8 @@ function animation1 () {
     )
     characterAnimations.loopFrames(
     player1,
-    [img`
-        . . . . f f f f f . . . . . . . 
-        . . . f e e e e e f . . . . . . 
-        . . f d d d d e e e f . . . . . 
-        . c d f d d f d e e f f . . . . 
-        . c d f d d f d e e d d f . . . 
-        c d e e d d d d e e b d c . . . 
-        c d d d d c d d e e b d c . f f 
-        c c c c c d d d e e f c . f e f 
-        . f d d d d d e e f f . . f e f 
-        . . f f f f f e e e e f . f e f 
-        . . . . f e e e e e e e f f e f 
-        . . . f e f f e f e e e e f f . 
-        . . . f e f f e f e e e e f . . 
-        . . . f d b f d b f f e f . . . 
-        . . . f d d c d d b b d f . . . 
-        . . . . f f f f f f f f f . . . 
-        `,img`
-        . . . . f f f f f . . . . . . . 
-        . . . f e e e e e f . . . . . . 
-        . . f d d d d e e e f . . . . . 
-        . c d f d d f d e e f . . . . . 
-        . c d f d d f d e e f f . . . . 
-        c d e e d d d d e e d d f . . . 
-        c d d d d c d d e e b d c . . . 
-        c c c c c d d e e e b d c . f f 
-        . f d d d d e e e f f c . f e f 
-        . f f f f f f e e e e f . f e f 
-        . f f f f e e e e e e e f f e f 
-        f d d f d d f e f e e e e f f . 
-        f d b f d b f e f e e e e f . . 
-        f f f f f f f f f f f f e f . . 
-        . . . . . . . . . f c d d f . . 
-        . . . . . . . . . . f f f f . . 
-        `,img`
-        . . . . f f f f f . . . . . . . 
-        . . . f e e e e e f . . . . . . 
-        . . f d d d d e e e f f . . . . 
-        . c d d d d d d e e d d f . . . 
-        . c d f d d f d e e b d c . . . 
-        c d d f d d f d e e b d c . f f 
-        c d e e d d d d e e f c . f e f 
-        c d d d d c d e e e f . . f e f 
-        . f c c c d e e e f f . . f e f 
-        . . f f f f f e e e e f . f e f 
-        . . . . f e e e e e e e f f f . 
-        . . f f e f e e f e e e e f . . 
-        . f e f f e e f f f e e e f . . 
-        f d d b d d c f f f f f f b f . 
-        f d d c d d d f . . f c d d f . 
-        . f f f f f f f . . . f f f . . 
-        `,img`
-        . . . . f f f f f . . . . . . . 
-        . . . f e e e e e f f f . . . . 
-        . . f d d d e e e e d d f . . . 
-        . c d d d d d e e e b d c . . . 
-        . c d d d d d d e e b d c . . . 
-        c d d f d d f d e e f c . f f . 
-        c d d f d d f d e e f . . f e f 
-        c d e e d d d d e e f . . f e f 
-        . f d d d c d e e f f . . f e f 
-        . . f f f d e e e e e f . f e f 
-        . . . . f e e e e e e e f f f . 
-        . . . . f f e e e e e b f f . . 
-        . . . f e f f e e c d d f f . . 
-        . . f d d b d d c f f f . . . . 
-        . . f d d c d d d f f . . . . . 
-        . . . f f f f f f f . . . . . . 
-        `,img`
-        . . . . f f f f f . . . . . . . 
-        . . . f e e e e e f . . . . . . 
-        . . f d d d d e e e f . . . . . 
-        . c d f d d f d e e f f . . . . 
-        . c d f d d f d e e d d f . . . 
-        c d e e d d d d e e b d c . . . 
-        c d d d d c d d e e b d c . . . 
-        c c c c c d d e e e f c . . . . 
-        . f d d d d e e e f f . . . . . 
-        . . f f f f f e e e e f . . . . 
-        . . . . f f e e e e e e f . f f 
-        . . . f e e f e e f e e f . e f 
-        . . f e e f e e f e e e f . e f 
-        . f b d f d b f b b f e f f e f 
-        . f d d f d d f d d b e f f f f 
-        . . f f f f f f f f f f f f f . 
-        `],
-    50,
+    assets.animation`cima`,
+    120,
     characterAnimations.rule(Predicate.MovingUp)
     )
     characterAnimations.loopFrames(
@@ -983,6 +822,8 @@ function iniciar_jogo () {
     story.setSoundEnabled(false)
     story.printCharacterText("1 contra 1")
     story.printCharacterText("A para golpear, B para comer, A+B para stunnar o adversário")
+    music.stopAllSounds()
+    music.setVolume(50)
 }
 // Deixar vazio
 info.onCountdownEnd(function () {
@@ -994,7 +835,7 @@ sprites.onOverlap(SpriteKind.d11, SpriteKind.Enemy, function (sprite, otherSprit
     Enemy_life += 0 - danoPlayers
     barenemy.value = Enemy_life
     otherSprite.startEffect(effects.trail, 150)
-    if (Enemy_life == 0) {
+    if (Enemy_life <= 0) {
         sprites.destroy(otherSprite)
     }
 })
@@ -1064,7 +905,6 @@ sprites.onCreated(SpriteKind.d2, function (sprite) {
 })
 sprites.onOverlap(SpriteKind.d11, SpriteKind.Player, function (sprite, otherSprite) {
     if (otherSprite == player2) {
-        sbar1.value += custoDamage * 5
         sprite.setKind(SpriteKind.d_semDano)
         controller.player2.moveSprite(player2, 0, 0)
         LigarInfo2 = 2
@@ -1091,7 +931,7 @@ sprites.onOverlap(SpriteKind.d2, SpriteKind.Enemy, function (sprite, otherSprite
     Enemy_life += 0 - danoPlayers
     barenemy.value = Enemy_life
     otherSprite.startEffect(effects.trail, 150)
-    if (Enemy_life == 0) {
+    if (Enemy_life <= 0) {
         sprites.destroy(otherSprite)
     }
 })
@@ -1411,14 +1251,14 @@ sprites.onDestroyed(SpriteKind.Enemy, function (sprite) {
         golpeEnemy2()
     }
     if (danoPlayer1 > danoPlayer2) {
-        info.player1.setScore(10)
+        info.player1.changeScoreBy(10)
         story.spriteSayText(player1, "10", 7)
     } else if (danoPlayer1 < danoPlayer2) {
-        info.player2.setScore(10)
+        info.player2.changeScoreBy(10)
         story.spriteSayText(player2, "10", 7)
     } else {
-        info.player1.setScore(5)
-        info.player2.setScore(5)
+        info.player1.changeScoreBy(5)
+        info.player2.changeScoreBy(5)
         story.spriteSayText(player1, "5", 10)
         story.spriteSayText(player2, "5", 10)
     }
@@ -1519,6 +1359,16 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.plant_2, function (sprite, other
         music.play(music.createSoundEffect(WaveShape.Sine, 1023, 1725, 255, 151, 100, SoundExpressionEffect.None, InterpolationCurve.Logarithmic), music.PlaybackMode.InBackground)
     }
 })
+info.player2.onScore(50, function () {
+    timer.after(500, function () {
+        if (info.player1.score() < info.player2.score()) {
+            game.setGameOverMessage(true, "Player 2 Wins")
+        } else {
+            game.setGameOverMessage(true, "Empate!")
+        }
+        game.gameOver(true)
+    })
+})
 function setPlayers () {
     player1 = sprites.create(img`
         . . . . . . . . . . . . . . . . 
@@ -1581,13 +1431,14 @@ let attack2: Sprite = null
 let delayButton2 = 0
 let attack1: Sprite = null
 let delayButtons1 = 0
+let sbar2: StatusBarSprite = null
+let sbar1: StatusBarSprite = null
 let smack: Sprite = null
 let i = 0
 let liberarBotao1 = 0
 let delay = 0
 let ISpawn: Sprite = null
 let wait1 = false
-let sbar1: StatusBarSprite = null
 let target1: Sprite = null
 let gEnemy: Sprite = null
 let logo: Sprite = null
@@ -1599,7 +1450,6 @@ let player2: Sprite = null
 let barenemy: StatusBarSprite = null
 let Enemy_life = 0
 let danoPlayer1 = 0
-let sbar2: StatusBarSprite = null
 let player1: Sprite = null
 let info2: Sprite = null
 let LigarInfo2 = 0
@@ -1607,11 +1457,11 @@ let info1: Sprite = null
 let LigarInfo = 0
 let timerGolpeEnemy = 0
 let valorAlimentar = 0
-let custoDamage = 0
 let danoPlayers = 0
-music.setVolume(50)
+music.setVolume(35)
+music.play(music.createSong(assets.song`01`), music.PlaybackMode.LoopingInBackground)
 danoPlayers = 3
-custoDamage = 5
+let custoDamage = 5
 valorAlimentar = 50
 timerGolpeEnemy = 0
 let delayGolpeEnemy = 5
@@ -1622,7 +1472,6 @@ animation1()
 animation2()
 setInfo()
 resetEnemy()
-resetTimer()
 forever(function () {
     for (let index = 0; index < 2; index++) {
         music.play(music.createSong(assets.song`01`), music.PlaybackMode.UntilDone)
@@ -1630,16 +1479,24 @@ forever(function () {
     for (let index = 0; index < 2; index++) {
         music.play(music.createSong(assets.song`02`), music.PlaybackMode.UntilDone)
     }
-    for (let index = 0; index < 4; index++) {
+    for (let index = 0; index < 3; index++) {
         music.play(music.createSong(assets.song`03`), music.PlaybackMode.UntilDone)
+    }
+    for (let index = 0; index < 1; index++) {
+        music.play(music.createSong(assets.song`04`), music.PlaybackMode.UntilDone)
+    }
+    for (let index = 0; index < 3; index++) {
+        music.play(music.createSong(assets.song`0`), music.PlaybackMode.UntilDone)
+    }
+    for (let index = 0; index < 1; index++) {
+        music.play(music.createSong(assets.song`1`), music.PlaybackMode.UntilDone)
     }
 })
 forever(function () {
-    if (liberarBotao1 == 0 && (controller.player1.isPressed(ControllerButton.A) && delayButtons1 >= 0.1)) {
+    if (LigarInfo != 2 && (liberarBotao1 == 0 && (controller.player1.isPressed(ControllerButton.A) && delayButtons1 >= 0.1))) {
         liberarBotao1 = 1
         delayButtons1 = 0
         if (sbar1.value >= custoDamage) {
-            sbar1.value += 0 - custoDamage
             attack1 = sprites.create(img`
                 ................................................
                 ................................................
@@ -1690,17 +1547,9 @@ forever(function () {
                 ................................................
                 ................................................
                 `, SpriteKind.d1)
-            animation.runImageAnimation(
-            attack1,
-            assets.animation`bananas`,
-            100,
-            true
-            )
             tiles.placeOnTile(attack1, player1.tilemapLocation())
-            splitScreen.cameraShake(splitScreen.Camera.Camera1, 2, 100)
-            music.play(music.createSoundEffect(WaveShape.Noise, 759, 3613, 255, 0, 50, SoundExpressionEffect.Warble, InterpolationCurve.Curve), music.PlaybackMode.InBackground)
-            if (controller.player1.isPressed(ControllerButton.B)) {
-                sbar1.value += -50 - custoDamage
+            if (sbar1.value >= 50 && controller.player1.isPressed(ControllerButton.B)) {
+                sbar1.value += -50
                 animation.runImageAnimation(
                 attack1,
                 assets.animation`knifes`,
@@ -1708,16 +1557,27 @@ forever(function () {
                 true
                 )
                 attack1.setKind(SpriteKind.d11)
+                splitScreen.cameraShake(splitScreen.Camera.Camera2, 6, 2000)
+                music.play(music.createSoundEffect(WaveShape.Noise, 759, 3613, 255, 0, 50, SoundExpressionEffect.Warble, InterpolationCurve.Curve), music.PlaybackMode.InBackground)
+            } else if (!(controller.player1.isPressed(ControllerButton.B))) {
+                sbar1.value += 0 - custoDamage
+                animation.runImageAnimation(
+                attack1,
+                assets.animation`bananas`,
+                100,
+                true
+                )
+                splitScreen.cameraShake(splitScreen.Camera.Camera1, 2, 100)
+                music.play(music.createSoundEffect(WaveShape.Noise, 759, 3613, 255, 0, 50, SoundExpressionEffect.Warble, InterpolationCurve.Curve), music.PlaybackMode.InBackground)
             }
         } else {
             music.play(music.createSoundEffect(WaveShape.Noise, 5000, 5000, 255, 0, 20, SoundExpressionEffect.Tremolo, InterpolationCurve.Linear), music.PlaybackMode.InBackground)
         }
     }
-    if (liberarBotao2 == 0 && (controller.player2.isPressed(ControllerButton.A) && delayButton2 >= 0.1)) {
+    if (LigarInfo2 != 2 && (liberarBotao2 == 0 && (controller.player2.isPressed(ControllerButton.A) && delayButton2 >= 0.1))) {
         delayButton2 = 0
         liberarBotao2 = 1
         if (sbar2.value >= custoDamage) {
-            sbar2.value += 0 - custoDamage
             attack2 = sprites.create(img`
                 ................................................
                 ................................................
@@ -1768,17 +1628,9 @@ forever(function () {
                 ................................................
                 ................................................
                 `, SpriteKind.d2)
-            animation.runImageAnimation(
-            attack2,
-            assets.animation`bananas`,
-            100,
-            true
-            )
             tiles.placeOnTile(attack2, player2.tilemapLocation())
-            splitScreen.cameraShake(splitScreen.Camera.Camera2, 2, 100)
-            music.play(music.createSoundEffect(WaveShape.Noise, 759, 3613, 255, 0, 50, SoundExpressionEffect.Warble, InterpolationCurve.Curve), music.PlaybackMode.InBackground)
-            if (controller.player2.isPressed(ControllerButton.B)) {
-                sbar2.value += -50 - custoDamage
+            if (sbar2.value >= 50 && controller.player2.isPressed(ControllerButton.B)) {
+                sbar2.value += -50
                 animation.runImageAnimation(
                 attack2,
                 assets.animation`knifes`,
@@ -1786,6 +1638,18 @@ forever(function () {
                 true
                 )
                 attack2.setKind(SpriteKind.d22)
+                splitScreen.cameraShake(splitScreen.Camera.Camera1, 6, 2000)
+                music.play(music.createSoundEffect(WaveShape.Noise, 759, 3613, 255, 0, 50, SoundExpressionEffect.Warble, InterpolationCurve.Curve), music.PlaybackMode.InBackground)
+            } else if (!(controller.player2.isPressed(ControllerButton.B))) {
+                sbar2.value += 0 - custoDamage
+                animation.runImageAnimation(
+                attack2,
+                assets.animation`bananas`,
+                100,
+                true
+                )
+                splitScreen.cameraShake(splitScreen.Camera.Camera2, 2, 100)
+                music.play(music.createSoundEffect(WaveShape.Noise, 759, 3613, 255, 0, 50, SoundExpressionEffect.Warble, InterpolationCurve.Curve), music.PlaybackMode.InBackground)
             }
         } else {
             music.play(music.createSoundEffect(WaveShape.Noise, 5000, 5000, 255, 0, 20, SoundExpressionEffect.Tremolo, InterpolationCurve.Linear), music.PlaybackMode.InBackground)
