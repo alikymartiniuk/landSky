@@ -980,7 +980,6 @@ function iniciar_jogo () {
     logo.startEffect(effects.starField)
     pauseUntil(() => controller.player1.isPressed(ControllerButton.A) || controller.player2.isPressed(ControllerButton.A))
     sprites.destroy(logo)
-    story.setPagePauseLength(1000, 1500)
     story.setSoundEnabled(false)
     story.printCharacterText("1 contra 1")
     story.printCharacterText("A para golpear, B para comer, A+B para stunnar o adversário")
@@ -1610,6 +1609,7 @@ let timerGolpeEnemy = 0
 let valorAlimentar = 0
 let custoDamage = 0
 let danoPlayers = 0
+music.setVolume(50)
 danoPlayers = 3
 custoDamage = 5
 valorAlimentar = 50
@@ -1623,6 +1623,17 @@ animation2()
 setInfo()
 resetEnemy()
 resetTimer()
+forever(function () {
+    for (let index = 0; index < 2; index++) {
+        music.play(music.createSong(assets.song`01`), music.PlaybackMode.UntilDone)
+    }
+    for (let index = 0; index < 2; index++) {
+        music.play(music.createSong(assets.song`02`), music.PlaybackMode.UntilDone)
+    }
+    for (let index = 0; index < 4; index++) {
+        music.play(music.createSong(assets.song`03`), music.PlaybackMode.UntilDone)
+    }
+})
 forever(function () {
     if (liberarBotao1 == 0 && (controller.player1.isPressed(ControllerButton.A) && delayButtons1 >= 0.1)) {
         liberarBotao1 = 1
